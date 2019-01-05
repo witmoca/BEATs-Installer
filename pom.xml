@@ -53,7 +53,6 @@
 			<resource>
 				<directory>src/main/izpack</directory>
 				<targetPath>${izpack.staging}</targetPath>
-				<filtering>true</filtering>
 			</resource>
 		</resources>
 
