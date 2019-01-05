@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>be.witmoca</groupId>
+	<artifactId>BEATs-Installer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>BEATs Installer</name>
+	<url>https://github.com/witmoca/BEATs-Installer</url>
+	<description>Cross-platform installer for BEATs</description>
+	<inceptionYear>2019</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>Apache v2.0 License</name>
+			<url>https://github.com/witmoca/BEATs/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>witmoca</id>
+			<name>Jente Heremans</name>
+			<email>jente@witmoca.be</email>
+			<url>https://github.com/witmoca</url>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Project Manager</role>
+				<role>Chief Codemonkey</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<izpack.staging>${project.build.directory}/izpack-staging</izpack.staging>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>be.witmoca</groupId>
+			<artifactId>BEATs</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<!-- Copy izpack resources over -->
+			<resource>
+				<directory>src/main/izpack</directory>
+				<targetPath>${izpack.staging}</targetPath>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+
+		<plugins>
+			<!-- Copy izpack resources -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>izpack-Resources</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<outputDirectory>${izpack.staging}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}</directory>
+									<include>${project.artifactId}.jar</include>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<includeEmptyDirs>false</includeEmptyDirs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<excludeTransitive>false</excludeTransitive>
+					<stripVersion>true</stripVersion>
+					<overWriteReleases>true</overWriteReleases>
+					<overWriteSnapshots>true</overWriteSnapshots>
+					<overWriteIfNewer>true</overWriteIfNewer>
+				</configuration>
+				<executions>
+					<execution>
+						<!-- copy *application* jars to izpack staging lib -->
+						<id>copy-product-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${izpack.staging}/lib</outputDirectory>
+							<includeGroupIds>be.witmoca</includeGroupIds>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- copy izpack custom (custom panels, etc.) jars to izpack staging 
+							custom -->
+						<id>copy-izpack-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Use files in staging area to create installer -->
+			<plugin>
+				<groupId>org.codehaus.izpack</groupId>
+				<artifactId>izpack-maven-plugin</artifactId>
+				<version>5.1.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>izpack</goal>
+						</goals>
+						<configuration>
+							<!-- base for relative paths in izpack descriptor -->
+							<baseDir>${izpack.staging}</baseDir>
+							<installFile>${basedir}/src/main/izpack/install.xml</installFile>
+							<autoIncludeDevelopers>true</autoIncludeDevelopers>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.izpack</groupId>
+						<artifactId>izpack-panel</artifactId>
+						<version>5.1.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>
