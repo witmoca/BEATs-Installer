@@ -61,6 +61,7 @@
 			<!-- Copy izpack resources -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>izpack-Resources</id>
