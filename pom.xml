@@ -5,7 +5,7 @@
 
 	<groupId>be.witmoca</groupId>
 	<artifactId>BEATs-Installer</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>BEATs Installer</name>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>be.witmoca</groupId>
 			<artifactId>BEATs</artifactId>
-			<version>1.0.0</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -53,6 +53,15 @@
 			<resource>
 				<directory>src/main/izpack</directory>
 				<targetPath>${izpack.staging}</targetPath>
+				<excludes>
+					<exclude>src/main/izpack/unfiltered/*</exclude>
+				</excludes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/izpack/unfiltered</directory>
+				<targetPath>${izpack.staging}</targetPath>
+				<filtering>false</filtering>
 			</resource>
 		</resources>
 
@@ -133,7 +142,7 @@
 						<configuration>
 							<!-- base for relative paths in izpack descriptor -->
 							<baseDir>${izpack.staging}</baseDir>
-							<installFile>${basedir}/src/main/izpack/install.xml</installFile>
+							<installFile>${izpack.staging}/install.xml</installFile>
 							<autoIncludeDevelopers>true</autoIncludeDevelopers>
 						</configuration>
 					</execution>
@@ -146,7 +155,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-	
+
 			<!-- Make sure compiler stays on right jre version -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
