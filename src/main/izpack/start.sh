@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar ./BEATs $1 $2
+java -jar ./BEATs.jar $1 $2

@@ -9,7 +9,7 @@
 		<appsubpath>BEATs</appsubpath>
 		<javaversion>1.8</javaversion>
 		<requiresjdk>no</requiresjdk>
-		<run-privileged uninstaller="yes" />
+		<run-privileged uninstaller="yes" condition="izpack.windowsinstall" />
 	</info>
 
 	<locale>
@@ -66,6 +66,8 @@
 				target="$INSTALL_PATH/start.bat" override="true" />
 			<singlefile src="start.sh" target="$INSTALL_PATH/start.sh"
 				override="true" />
+			<executable targetfile="$INSTALL_PATH/start.sh"
+				stage="never"></executable>
 		</pack>
 	</packs>
 

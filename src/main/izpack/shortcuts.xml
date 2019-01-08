@@ -4,5 +4,5 @@
                   xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
  
 <shortcut name="Burning Ember" target="$INSTALL_PATH/start.bat" desktop="true" startMenu="true" iconFile="$INSTALL_PATH/icons/logo.ico" condition="izpack.windowsinstall"></shortcut>
-<shortcut name="Burning Ember" target="$INSTALL_PATH/start.sh" desktop="true" startMenu="true" iconFile="$INSTALL_PATH/icons/logo.png" condition="izpack.linuxinstall"></shortcut>
+<shortcut name="Burning Ember" target="$INSTALL_PATH/start.sh" desktop="true" applications="true" iconFile="$INSTALL_PATH/icons/logo.png" condition="izpack.linuxinstall" type="Application" workingDirectory="$INSTALL_PATH" terminal="false"></shortcut>
 </izpack:shortcuts>
