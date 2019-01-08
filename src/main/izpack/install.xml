@@ -59,9 +59,9 @@
 				stage="never"></executable>
 
 			<singlefile src="logo.png"
-				target="$INSTALL_PATH/icons/logo_png.png" override="true" />
+				target="$INSTALL_PATH/icons/logo.png" override="true" />
 			<singlefile src="logo.ico"
-				target="$INSTALL_PATH/icons/logo_ico.ico" override="true" />
+				target="$INSTALL_PATH/icons/logo.ico" override="true" />
 			<singlefile src="start.bat"
 				target="$INSTALL_PATH/start.bat" override="true" />
 			<singlefile src="start.sh" target="$INSTALL_PATH/start.sh"
